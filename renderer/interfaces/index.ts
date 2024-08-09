@@ -9,9 +9,13 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   interface Window {
     electron: {
+      send: (message, data) => void;
       sayHello: () => void;
+      invoke: (event) => string;
       receiveHello: (handler: (event, args) => void) => void;
       stopReceivingHello: (handler: (event, args) => void) => void;
+      receiveToken: (handler: (event, args) => void) => void;
+      stopReceivingToken: (handler: (event, args) => void) => void;
     };
   }
 }

@@ -13,4 +13,12 @@ contextBridge.exposeInMainWorld("electron", {
   stopReceivingHello: (
     handler: (event: IpcRendererEvent, ...args: any[]) => void,
   ) => ipcRenderer.removeListener("message", handler),
+  send: (channel: string, data: any) => {
+    ipcRenderer.send(channel, data);
+  },
+  receiveToken: (handler: (event: IpcRendererEvent, ...args: any[]) => void) =>
+    ipcRenderer.on("token", handler),
+  stopReceiveToken: (
+    handler: (event: IpcRendererEvent, ...args: any[]) => void,
+  ) => ipcRenderer.removeListener("token", handler),
 });

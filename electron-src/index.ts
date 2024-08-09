@@ -7,11 +7,13 @@ import { BrowserWindow, app, ipcMain, IpcMainEvent } from "electron";
 import isDev from "electron-is-dev";
 import prepareNext from "electron-next";
 
+let mainWindow: BrowserWindow | null;
+
 // Prepare the renderer once the app is ready
 app.on("ready", async () => {
   await prepareNext("./renderer");
 
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -19,6 +21,7 @@ app.on("ready", async () => {
       contextIsolation: true,
       preload: join(__dirname, "preload.js"),
     },
+    fullscreen: true
   });
 
   const url = isDev
@@ -29,6 +32,7 @@ app.on("ready", async () => {
         slashes: true,
       });
 
+  mainWindow.webContents.openDevTools();
   mainWindow.loadURL(url);
 });
 
@@ -40,3 +44,12 @@ ipcMain.on("message", (event: IpcMainEvent, message: any) => {
   console.log(message);
   setTimeout(() => event.sender.send("message", "hi from electron"), 500);
 });
+
+ipcMain.on('login-success', async (event: IpcMainEvent, userData: any) => {
+  console.log('Login successful:', userData);
+  event.sender.send("token", userData)
+  if (mainWindow) {
+    mainWindow.loadURL('http://localhost:8000/dashboard');
+  }
+});
+

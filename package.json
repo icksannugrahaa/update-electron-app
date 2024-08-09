@@ -1,7 +1,11 @@
 {
   "private": true,
   "main": "main/index.js",
-  "productName": "ElectronTypescriptNext",
+  "productName": "POS ELECTRON",
+  "version": "0.0.1",
+  "author": "icksan",
+  "description": "pos electron",
+  "Id": 0,
   "scripts": {
     "clean": "rimraf dist main renderer/out renderer/.next",
     "dev": "npm run build-electron && electron .",
@@ -10,20 +14,34 @@
     "build": "npm run build-renderer && npm run build-electron",
     "pack-app": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
-    "type-check": "tsc -p ./renderer/tsconfig.json && tsc -p ./electron-src/tsconfig.json"
+    "type-check": "tsc -p ./renderer/tsconfig.json && tsc -p ./electron-src/tsconfig.json",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "electron-is-dev": "^1.2.0",
     "electron-next": "^3.1.5",
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-store": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
     "@types/node": "^14.18.63",
     "@types/react": "^16.14.52",
     "@types/react-dom": "^16.9.24",
     "electron": "^27.1.2",
-    "electron-builder": "^24.9.1",
+    "electron-packager": "^17.1.2",
     "next": "latest",
     "rimraf": "^3.0.2",
     "typescript": "^4.9.5"
@@ -33,6 +51,10 @@
     "files": [
       "main",
       "renderer/out"
-    ]
+    ],
+    "appId": "com.aha.id",
+    "win": {
+      "target": "squirrel"
+    }
   }
 }
